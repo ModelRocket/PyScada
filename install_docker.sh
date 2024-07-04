@@ -206,8 +206,8 @@ if ! command -v docker-compose >/dev/null 2>&1; then
   exit -1
 fi
 
-systemctl is-active docker.service
-check_exit_status "docker service is not running. Start it using : sudo systemctl start docker.service" $?
+# systemctl is-active docker.service
+# check_exit_status "docker service is not running. Start it using : sudo systemctl start docker.service" $?
 
 echo "The installation may take some time"
 sleep 0
