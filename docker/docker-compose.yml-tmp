@@ -1,8 +1,8 @@
-version: '3'
 services:
   pyscada:
     build: pyscada
     container_name: pyscada
+    #command: ["echo", "HelloWorld"]
     #volumes:
     tty: true
     depends_on:
@@ -24,12 +24,23 @@ services:
     depends_on:
       - pyscada
 
+  pymodbus:
+    build: pymodbus
+    container_name: pymodbus
+    ports:
+      - "8081:8081"
+      - "5020:5020"
+    depends_on:
+      - nginx
+
   db:
     image: mysql:latest
     container_name: mysql
     restart: always
-    command: --default-authentication-plugin=mysql_native_password
+    command: --mysql-native-password=ON
     #build: mysql
+    ports:
+      - "3306:3306"
     environment:
       MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
       MYSQL_DATABASE: 'PyScada_db'
