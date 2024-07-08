@@ -54,14 +54,14 @@ function db_setup(){
   check_exit_status "Unable to copy Dockerfile" $?
 
   # add mysql Dockerfile with db informations
-  sed -i "s|PyScada_db|$answer_db_name|g"  $DOCKERFILE_SQL
-  sed -i "s|PyScada-user-password|$answer_db_password|g"  $DOCKERFILE_SQL
-  sed -i "s|PyScada-user|$answer_db_user|g"  $DOCKERFILE_SQL
+  sed -i '' "s|PyScada_db|$answer_db_name|g"  $DOCKERFILE_SQL
+  sed -i '' "s|PyScada-user-password|$answer_db_password|g"  $DOCKERFILE_SQL
+  sed -i '' "s|PyScada-user|$answer_db_user|g"  $DOCKERFILE_SQL
 
   # modify docker-compose.yml with db informations
-  sed -i "s|PyScada_db|$answer_db_name|g" $DOCKER_COMPOSE
-  sed -i "s|PyScada-user-password|$answer_db_password|g" $DOCKER_COMPOSE
-  sed -i "s|PyScada-user|$answer_db_user|g" $DOCKER_COMPOSE
+  sed -i '' "s|PyScada_db|$answer_db_name|g" $DOCKER_COMPOSE
+  sed -i '' "s|PyScada-user-password|$answer_db_password|g" $DOCKER_COMPOSE
+  sed -i '' "s|PyScada-user|$answer_db_user|g" $DOCKER_COMPOSE
 
   debug "db_setup end"
 }
@@ -169,24 +169,24 @@ function template_setup(){
   cp -r ../tests/project_template ../tests/project_template_tmp
 
   # add mysql host name to the mysql container
-  sed -i "/'PASSWORD': '/a \ \ \ \ \ \ \ \ 'HOST': 'db'," "$SETTINGS_TPL"
+  sed -i '' "/'PASSWORD': '/a \ \ \ \ \ \ \ \ 'HOST': 'db'," "$SETTINGS_TPL"
 
   # remove concurrent_log_handler config and use file handler
-  sed -i "/ConcurrentRotatingFileHandler/c\ \ \ \ \ \ \ \ \ \ \ \ 'class': 'logging.FileHandler'," "$SETTINGS_TPL"
-  sed -i '/maxBytes/d' "$SETTINGS_TPL"
-  sed -i '/backupCount/d' "$SETTINGS_TPL"
+  sed -i '' "/ConcurrentRotatingFileHandler/c\ \ \ \ \ \ \ \ \ \ \ \ 'class': 'logging.FileHandler'," "$SETTINGS_TPL"
+  sed -i '' '/maxBytes/d' "$SETTINGS_TPL"
+  sed -i '' '/backupCount/d' "$SETTINGS_TPL"
   check_exit_status "add mysql HOST failed" $?
 
   # set up django settings file
-  sed -i "s|{{ db_name }}|$answer_db_name|g"  $SETTINGS_TPL
-  sed -i "s|{{ db_user }}|$answer_db_user|g"  $SETTINGS_TPL
-  sed -i "s|{{ db_password }}|$answer_db_password|g"  $SETTINGS_TPL
-  sed -i "s|{{ project_root }}|\/src\/pyscada\/|g"  $SETTINGS_TPL
-  sed -i "s|{{ log_file_dir }}|\/src\/pyscada\/|g"  $SETTINGS_TPL
-  sed -i "s|{{ project_admins\|safe }}|$project_admins|g"  $SETTINGS_TPL
-  sed -i "s|{{ auto_add_apps }}|$answer_auto_add_apps|g"  $SETTINGS_TPL
-  sed -i "s|{{ additional_apps }}||g"  $SETTINGS_TPL
-  sed -i "s|{{ additional_settings }}||g"  $SETTINGS_TPL
+  sed -i '' "s|{{ db_name }}|$answer_db_name|g"  $SETTINGS_TPL
+  sed -i '' "s|{{ db_user }}|$answer_db_user|g"  $SETTINGS_TPL
+  sed -i '' "s|{{ db_password }}|$answer_db_password|g"  $SETTINGS_TPL
+  sed -i '' "s|{{ project_root }}|\/src\/pyscada\/|g"  $SETTINGS_TPL
+  sed -i '' "s|{{ log_file_dir }}|\/src\/pyscada\/|g"  $SETTINGS_TPL
+  sed -i '' "s|{{ project_admins\|safe }}|$project_admins|g"  $SETTINGS_TPL
+  sed -i '' "s|{{ auto_add_apps }}|$answer_auto_add_apps|g"  $SETTINGS_TPL
+  sed -i '' "s|{{ additional_apps }}||g"  $SETTINGS_TPL
+  sed -i '' "s|{{ additional_settings }}||g"  $SETTINGS_TPL
 
   rm ./pyscada/project_template.zip
   cd ../tests/project_template_tmp
